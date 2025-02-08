@@ -1,4 +1,0 @@
-object tokens {
-  val telegram_token = "7422392709:AAH_UuWOIlkPCZRORoJKE8ZpxHbMdMr8txI"
-  val weather_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM4ODUyNjkyLCJpYXQiOjE3Mzg4NTIzOTIsImp0aSI6ImVhYTI5ZTlhZTJiYzRkNWJhODE3ZDU5YmNjOGQ0MWIyIiwidXNlcl9pZCI6MTEyfQ._gKhRHaBzGnE1sqJfxgg_yvnWifcG3SrS7dlaRGhdJk"
-}

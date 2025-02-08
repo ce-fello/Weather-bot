@@ -1,15 +1,11 @@
 import cats.Parallel
 import cats.effect.{Async, IO, Ref}
-
+import cats.syntax.traverse._
 import org.http4s.client.Client
-
-import io.circe._
-import io.circe.parser._
-import io.circe.generic.auto._
-
 import telegramium.bots.*
 import telegramium.bots.high.implicits.*
 import telegramium.bots.high.{Api, LongPollBot}
+
 
 class WeatherBot(client: Client[IO])(implicit
                                      bot: Api[IO],
@@ -17,7 +13,7 @@ class WeatherBot(client: Client[IO])(implicit
                                      parallel: Parallel[IO]
 ) extends LongPollBot[IO](bot) {
 
-  import tokens.weather_token
+  import Tokens.weatherToken
 
   private case class UserState(waitingForInput: Boolean)
 
@@ -53,23 +49,15 @@ class WeatherBot(client: Client[IO])(implicit
   private def handleUserInput(msg: Message): IO[Unit] = {
     val cityName = msg.text.getOrElse("")
 
-    val weatherResponse: IO[Forecast] = new WeatherService(client, weather_token).getWeather(cityName)
+    val weatherResponse: IO[Seq[Forecast]] = new WeatherService(client, weatherToken).getWeather(cityName)
 
-    weatherResponse.flatMap { jsonResponse =>
-      decode[Forecast](jsonResponse) match {
-        case Right(forecasts) => { weather =>
-          sendMessage(
-            chatId = ChatIntId(msg.chat.id),
-            text = s"Погода в $cityName: ${(weather.temp_2 - 273.15)}°C, влажность ${weather.vlaga_2}%, скорость ветра ${weather.wind_speed_10} м/с"
-          ).exec.void
-
-          case Left(error)
-          =>
-          sendMessage(chatId = ChatIntId(msg.chat.id), text = s"Ошибка декодирования погоды для города '$cityName': ${error.getMessage}").exec.void
-        }
+    weatherResponse.flatMap { weathers =>
+      weathers.toList.traverse { weather =>
+        sendMessage(
+          chatId = ChatIntId(msg.chat.id),
+          text = s"Погода в $cityName: ${(weather.temp_2 - 273.15)}°C, влажность ${weather.vlaga_2}%, скорость ветра ${weather.wind_speed_10} м/с"
+        ).exec
       }
-    .handleErrorWith { error =>
-        sendMessage(chatId = ChatIntId(msg.chat.id), text = s"Ошибка получения погоды для города '$cityName': ${error.getMessage}").exec.void
-      }
-    }
+    }.void
   }
+}

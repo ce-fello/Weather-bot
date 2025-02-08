@@ -9,14 +9,14 @@ import org.http4s.client.middleware.Logger
 import telegramium.bots.high.Api
 import telegramium.bots.high.BotApi
 
-import tokens.telegram_token
+import Tokens.telegramToken
 
 object WeatherBotApp extends IOApp {
   override def run(args: List[String]): IO[ExitCode] =
     BlazeClientBuilder[IO].resource
       .use { httpClient =>
         val http = Logger(logBody = false, logHeaders = false)(httpClient)
-        implicit val api: Api[IO] = createBotBackend(http, telegram_token)
+        implicit val api: Api[IO] = createBotBackend(http, telegramToken)
         val weatherBot = new WeatherBot(httpClient)
         weatherBot.start().as(ExitCode.Success)
       }
