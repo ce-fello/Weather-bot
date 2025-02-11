@@ -9,7 +9,7 @@ Project contains five scala code files:
 ## How to run?
 1. Clone the repository using ```git clone https://github.com/ce-fello/Weather-bot.git```
 2. Go to the ```@BotFather``` and get your personal telegram bot token
-3. This bot uses ```https://projecteol.ru``` and it's API to get weather forecast. Go this it's website and get your personal API key to make requests
+3. This bot uses ```https://projecteol.ru``` and it's API to get weather forecast. Go this website and get your personal API key to make requests
 4. Insert your telegram bot token and personal weather API token in the variables in **Tokens** file
 5. Run the WeatherBotApp file
 6. Find your bot in telegram using the username you gave it
