@@ -1,12 +1,14 @@
 import cats.effect.IO
-import cityCoordinates.cityCoordinates
+
 import io.circe.Decoder
 import io.circe.derivation.Configuration
-import io.circe.generic.AutoDerivation
 import io.circe.generic.auto.deriveDecoder
+
 import org.http4s.circe.jsonOf
 import org.http4s.client.Client
 import org.http4s.implicits.uri
+
+import CityCoordinates.cityCoordinates
 
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter

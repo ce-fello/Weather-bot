@@ -1,6 +1,6 @@
 import scala.collection.immutable.HashMap
 
-object cityCoordinates {
+object CityCoordinates {
   val cityCoordinates: HashMap[String, (String, String)] = HashMap(
     "Абаза" -> ("52.651657", "90.088572"),
     "Абакан" -> ("53.721152", "91.442387"),
